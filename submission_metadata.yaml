@@ -1,0 +1,91 @@
+# Redrob Hackathon — Submission Metadata Template
+#
+# Copy this file to your repo root as `submission_metadata.yaml` and fill it in.
+# The fields here should match what you submit via the portal at upload time.
+# Stage 3 review uses this file to verify your portal metadata.
+
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "Code Vectors"  # Used in leaderboard and announcements
+
+primary_contact:
+  name: "Himanshu Kundal"
+  email: "kundalhimanshu2007@gmail.com"   # Used for all organizer communication
+  phone: "+91-8494099036"        # Used for top-50 / top-10 outreach
+
+team_members:
+  - name: "Himanshu Kundal"
+    email: "kundalhimanshu2007@gmail.com"
+    role: "Data Science, Team Lead"          # Optional, e.g. "Team Lead", "Backend", "Data"
+
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/HimanshuIITP/intelligent-candidate-discovery"
+# Required. Must be reachable. Private repos OK if you can grant organizer
+# access at Stage 3 (the email to add will be communicated then).
+
+sandbox_link: "https://github.com/HimanshuIITP/intelligent-candidate-discovery (Docker environment included)"
+# Required. A working hosted environment where the ranker can be run on a small
+# candidate sample. See Section 10.5 of submission_spec.md for acceptable
+# platforms (HuggingFace Spaces, Streamlit Cloud, Replit, Colab, Docker, Binder).
+
+reproduce_command: "python rank.py --candidates data/candidates.jsonl --out submission.csv"
+# The single command that produces submission.csv from candidates.jsonl.
+# Should run end-to-end within 5 minutes on CPU with 16GB RAM and no network.
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Hp ProBook 430 g3"                    # Or: "AWS EC2 c5.4xlarge", "Local Linux box", etc.
+  cpu_cores: 4                                  # Number of CPU cores used
+  ram_gb: 8                                     # Available RAM in GB
+  python_version: "3.11.4"                      # python --version
+  os: "Arch Linux"                              # Or "Ubuntu 22.04 LTS", etc.
+  uses_gpu_for_inference: false                 # Must be false — see compute constraints
+  has_network_during_ranking: false             # Must be false — no API calls during ranking
+  pre_computation_required: false               # true if you pre-compute embeddings or train models offline
+  pre_computation_time_minutes: 0               # Approximate, if applicable
+
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+# Transparency only — declared use is NOT penalized. Be honest. Stage 5 interview
+# may verify these declarations against your code; declarations that contradict
+# your code or your interview are flagged.
+ai_tools_used:
+  - "Claude"        # e.g. for architecture discussion, code review
+  - "CodeRabbit"
+  - "Google Gemini"  # e.g. for autocomplete
+  # Other options: "ChatGPT", "Cursor", "Gemini", "Codeium", "Other", "None"
+
+ai_usage_summary: |
+  Used an AI coding assistant (Claude/Gemini) for architectural planning, discussing logic for honeypot rules, and writing the Python boilerplate. CodeRabbit was used for code review. Absolutely no hackathon candidate JSON data was fed into any external APIs or LLMs.
+  AI was used in designing logic.
+
+# ============================================================================
+# Approach summary (optional but recommended)
+# ============================================================================
+methodology_summary: |
+  A fully offline CPU-optimized hybrid ranking system working through 100K profiles within 4 minutes.
+  
+  
+  To overcome the problem with the computing power bottleneck, we implement a "Two-Stage Funnel": Rank-BM25 quickly pre-ranks the data to retain only top 1,000 candidates allowing us to leverage heavy local Semantic Embeddings (SentenceTransformers) over only a fraction of potential candidates.
+
+  Score is far from a mere count of keywords because of the "Career Evidence Graph" model in which a semantic match of a candidate is additionally multiplied by structural factors such as product company experience and notice period. To prevent abuse with keyword stuffing, proficiency of a skill is mathematically penalized for lack of endorsements or experience period.
+
+  We constructed 12 strict "Honeypot" detection rules that proactively detect fabricated CVs (such as reversed timeline, salary inversion, too large list of skills without any endorsements). False profiles are heavily penalized. Lastly, behavioral multiplier drops scores of inactive candidates by 50%.
+  
+  No explanations whatsoever are generated by an LLM; they are crafted deterministically via string templates.
+
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true        # I have read submission_spec.md in full
+  code_is_original_work: true       # My code is my team's original work (using AI as a tool is fine)
+  no_collusion: true                # I have not coordinated my submission with other teams
+  honeypot_check_done: true         # OPTIONAL — set true if you explicitly checked for honeypots in your ranking
+  reproduction_tested: false         # I have tested that my reproduce_command runs end-to-end
