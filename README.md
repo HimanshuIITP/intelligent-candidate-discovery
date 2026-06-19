@@ -1,4 +1,4 @@
-# 🏆 Redrob "India Runs" Hackathon — Track 1
+# Redrob "India Runs" Hackathon — Track 1
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green)
