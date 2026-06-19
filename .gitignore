@@ -1,0 +1,38 @@
+# Data files (too large for git)
+data/candidates.jsonl
+data/candidates.jsonl.gz
+*.jsonl
+*.jsonl.gz
+
+# Model weights (downloaded by setup_models.py)
+models/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual env
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outputs
+submission.csv
+test_output.csv
+*.log
